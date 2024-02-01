@@ -35,6 +35,15 @@ const styles = {
     padding: 8,
     border: 0,
   },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  center: {
+    padding: 8,
+    display: 'flex',
+    justifyContent: 'center',
+  }
 } as const;
 
 export default function FileTree({ fileName, setFileName }: WorkspaceProps) {
@@ -101,11 +110,7 @@ export default function FileTree({ fileName, setFileName }: WorkspaceProps) {
         && searchResults.length > 0
         && (
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
+          style={styles.column}>
           {searchResults.map((result) => (
             <button
               key={result}
@@ -122,13 +127,7 @@ export default function FileTree({ fileName, setFileName }: WorkspaceProps) {
         </div>
         )}
       {search.length > 0 && searchResults.length === 0 && (
-        <p
-          style={{
-            padding: 8,
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <p style={styles.center}>
           No Results Found
         </p>
       )}

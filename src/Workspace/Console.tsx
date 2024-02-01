@@ -23,10 +23,10 @@ export default function Console({ fileName }: Props) {
   const [files] = useState(DefaultFiles);
   const [isModified, setIsModified] = useState<boolean>(false);
   const [content, setContent] = useState<string>('');
-  const [open, setOpen] = useState<boolean>(false);
+  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
 
   const updateContent = () => {
-    setOpen(true);
+    setOpenSnackBar(true);
     const updatedFiles = files;
     /**
      * find the path from the file name
@@ -49,18 +49,24 @@ export default function Console({ fileName }: Props) {
     }
   }, [fileName]);
 
-  const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
+
+  const handleCloseSnackBar = (event: SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setOpenSnackBar(false);
   };
 
   if (fileName.length === 0) {
     return <div style={styles.placeholder}>Please select a file</div>;
   }
+  /**
+   * if a file has been selected, extract the path and contents of the selected file
+   */
   const { path = '', contents = '' } = files.filter((file) => file.path.includes(fileName))[0];
-
+  /**
+   * extract the file extension for that file
+   */
   const language = fileName.split('.')[1];
   return (
     <>
@@ -75,9 +81,9 @@ export default function Console({ fileName }: Props) {
       />
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={open}
+        open={openSnackBar}
         autoHideDuration={2500}
-        onClose={handleClose}
+        onClose={handleCloseSnackBar}
         message="File Auto-Saved"
       />
     </>
